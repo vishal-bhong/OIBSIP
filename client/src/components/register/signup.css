@@ -1,0 +1,30 @@
+
+#register {
+    background-color: white;
+    margin: 60px 0px 0px 400px;
+    width: 35%;
+    height: auto;
+    box-shadow: 11px 11px 8px;
+    border-radius: 5px;
+}
+
+#regtitle { 
+    margin: 0 0 0 150px;
+    font-size: 50px;
+    color: darkviolet;
+    text-shadow: 5px 5px 5px black;
+}
+
+#fullwidthinput {
+
+    width: 28rem;
+}
+
+#emailOtp {
+    width:12rem;
+    
+}
+
+#regbtn {
+    width:12rem;
+}
