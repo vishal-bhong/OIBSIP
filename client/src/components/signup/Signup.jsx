@@ -1,50 +1,68 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import "./signup.css";
-import { useNavigate } from "react-router-dom";
+import { signup } from "../../actions/auth";
 
 
 const Signup = () => {
 
-    const [ signupData, setSignupData ] = useState({ firstName: '', lastName:'', email: '', mobileNo: '', password: '',vconfirmPassword: '' });
-    const [ isVerifying, setIsVerifying ] = useState(false);
+    const [ signupData, setSignupData ] = useState({ firstName: '', lastName:'', email: 'vishalbhong9803@gmail.com', mobileNo: '', password: '',confirmPassword: '' });
+    const [ emailVerificationData, setEmailVerificationData ] = useState({ isVerifying: true, emailForVerification: '', OTP: '' });
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-       setIsVerifying(false)
-    }, [signupData.email]);
+        setEmailVerificationData({ ...emailVerificationData, isVerifying: false, OTP: '' })
+    }, [emailVerificationData.emailForVerification]);
 
 
-    const handleOtpSubmit = () => {
-        alert("otp sent successfully ...");
-        setIsVerifying(true);
+    const handleGetOtp = (e) => {
+        e.preventDefault();
+        setEmailVerificationData({ ...emailVerificationData, isVerifying: true, OTP: '' });
+
+        axios.post('http://localhost:5000/user/generateOtpForEmail', emailVerificationData)
+         .then(res =>{
+             console.log(res.data.result); 
+             toast.success(`OTP sent successfully to ${res.data.result}`);                                    
+         })
+         .catch((err) => {
+             console.log(err.message)            
+         });
+
+    }
+
+    const handleOtpSubmit = (e) => {
+        e.preventDefault();
+
+        axios.post('http://localhost:5000/user/verifyOtpForEmail', emailVerificationData)
+         .then(res =>{
+            console.log(res); 
+            toast.success(`${res.data.message}`)
+            setSignupData({ ...signupData, email: res.data.result })                    
+         })
+         .catch((err) => {
+             toast.error(`${err.response.data.message}`)
+         });
     }
     
     const handleSubmit = (e) => {
         e.preventDefault();          
-        
-        axios.post('http://localhost:5000/user/register', signupData)
-        .then(res =>{
-            console.log(res);
-            console.log(res.data.result.email)
-            let result = res.data.result;
-            localStorage.setItem('userProfile', JSON.stringify({ result }));           
-        navigate('/emailverifier');
-        })
-        .catch(err => {
-            console.log(err)
-        });
+        dispatch(signup(signupData, navigate));
     }    
      
 
     const handleClear = () => {
         setSignupData({ firstName: '', lastName:'', email: '', mobileNo: '', password: '', confirmPassword: '' });
+        setEmailVerificationData({ isVerifying: true, emailForVerification: '', OTP: '' });
     }
 
     return (
         <>
-            <form className="flex-column border border-dark" id="register" onSubmit={handleSubmit} >            
+            <form className="flex-column border border-dark" id="register" >            
                 <h2 className="d-flex fw-bold mt-2" id="regtitle">Signup</h2>
 
                 <div className="row mt-3 ms-2" id="fullwidthinput">
@@ -58,26 +76,29 @@ const Signup = () => {
                 </div> 
 
                 <div className="col-12 mt-3 ms-2" id="fullwidthinput">
-                <input type="email" className="form-control form-control-lg" placeholder="email" aria-label="email" value={signupData.email} onChange={(e) => setSignupData({ ...signupData, email: e.target.value })} />               
+                <input type="email" className="form-control form-control-lg" placeholder="email" aria-label="email" value={emailVerificationData.emailForVerification} onChange={(e) => setEmailVerificationData({ ...emailVerificationData, emailForVerification: e.target.value })} />               
                 </div> 
 
                 {
-                    signupData.email ? (
+                    emailVerificationData.emailForVerification ? (
                     <> 
                     {
-                        signupData.email && isVerifying ? 
+                        emailVerificationData.isVerifying ?
                         (
                             <>
                              <div className="row ms-2 mt-3" id="fullwidthinput">
-                                <input className="form-control" id="emailOtp" />                    
-                                <button className="col-3 me-0 ms-auto" onClick={handleOtpSubmit}>submit OTP</button>
+                                <input className="form-control" id="emailOtp" onChange={(e) => setEmailVerificationData({ ...emailVerificationData, OTP: e.target.value })}/>
+                                <div className="col-3 me-0 ms-auto text-dark">
+                                    <button id="resend_otp" onClick={handleGetOtp}>Resend OTP</button>
+                                </div>
+                                <button className="col-3 me-0 ms-auto fw-semibold bg-success" onClick={handleOtpSubmit}>submit OTP</button>
                              </div>
                             </>
                         ) :
                         (
                             <>
                               <div className="row ms-2 mt-3" id="fullwidthinput">                      
-                                <button className="col-3 me-0 ms-auto" onClick={handleOtpSubmit}>Verify email</button>
+                                <button className="col-3 me-0 ms-auto" onClick={handleGetOtp}>Verify email</button>
                               </div>
                             </>
                         )
@@ -102,7 +123,7 @@ const Signup = () => {
                 <div className="row gx-5 mt-4 mb-3">
 
                     <div className="col ms-2">
-                    <button className="btn btn-primary" id="regbtn" type="submit">Submit</button>
+                    <button className="btn btn-primary" id="regbtn" type="submit" onClick={handleSubmit}>Submit</button>
                     </div>
 
                     <div className="col me-1">
@@ -111,8 +132,8 @@ const Signup = () => {
                     
                 </div>
                 <div className="col-12 d-flex justify-content-end mb-2">
-                  <a className="me-3" href="/login">Already have an account.Click here to Login</a>
-                </div>            
+                  <a className="me-3 fw-bold" href="/login">Already have an account.Click here to Login</a>
+                </div>    
             </form>
         </>
     )

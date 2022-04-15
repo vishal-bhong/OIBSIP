@@ -25,6 +25,15 @@
     
 }
 
+#resend_otp {
+    font-size: 14px;
+    height: 24px;
+    margin-top: 14px;
+    color: brown;
+    font-weight: 600;
+    background: white;
+}
+
 #regbtn {
     width:12rem;
 }
