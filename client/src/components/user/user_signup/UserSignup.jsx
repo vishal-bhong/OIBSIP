@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-import "./signup.css";
-import { signup } from "../../actions/auth";
+import "./user_signup.css";
+import { userSignup } from "../../../actions/userAuth";
 
 
-const Signup = () => {
+const UserSignup = () => {
 
-    const [ signupData, setSignupData ] = useState({ firstName: '', lastName:'', email: 'vishalbhong9803@gmail.com', mobileNo: '', password: '',confirmPassword: '' });
+    const [ signupData, setSignupData ] = useState({ firstName: '', lastName:'', email: '', mobileNo: '', password: '',confirmPassword: '' });
     const [ emailVerificationData, setEmailVerificationData ] = useState({ isVerifying: true, emailForVerification: '', OTP: '' });
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,7 +26,6 @@ const Signup = () => {
 
         axios.post('http://localhost:5000/user/generateOtpForEmail', emailVerificationData)
          .then(res =>{
-             console.log(res.data.result); 
              toast.success(`OTP sent successfully to ${res.data.result}`);                                    
          })
          .catch((err) => {
@@ -40,7 +39,6 @@ const Signup = () => {
 
         axios.post('http://localhost:5000/user/verifyOtpForEmail', emailVerificationData)
          .then(res =>{
-            console.log(res); 
             toast.success(`${res.data.message}`)
             setSignupData({ ...signupData, email: res.data.result })                    
          })
@@ -51,7 +49,7 @@ const Signup = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();          
-        dispatch(signup(signupData, navigate));
+        dispatch(userSignup(signupData, navigate));
     }    
      
 
@@ -63,9 +61,9 @@ const Signup = () => {
     return (
         <>
             <form className="flex-column border border-dark" id="register" >            
-                <h2 className="d-flex fw-bold mt-2" id="regtitle">Signup</h2>
+                <h2 className="fw-bold" id="regtitle">Signup</h2>
 
-                <div className="row mt-3 ms-2" id="fullwidthinput">
+                <div className="row mt-4 ms-2" id="fullwidthinput">
                     <div className="col-6">
                     <input type="text" className="form-control form-control-lg" placeholder="first Name" aria-label="first name" value={signupData.firstName} onChange={(e) => setSignupData({ ...signupData, firstName: e.target.value })} />               
                     </div>
@@ -132,14 +130,17 @@ const Signup = () => {
                     
                 </div>
                 <div className="col-12 d-flex justify-content-end mb-2">
-                  <a className="me-3 fw-bold" href="/login">Already have an account.Click here to Login</a>
-                </div>    
+                  <a className="me-3 fw-bold" href="/user/login">Already have an account.Click here to Login</a>
+                </div> 
+                <div className="col-12 d-flex justify-content-end mb-2">
+                  <a className="me-3 fw-bold" href="/admin/signup">Admin Signup ?</a>
+                </div>   
             </form>
         </>
     )
 }
 
-export default Signup;
+export default UserSignup;
 
 
 

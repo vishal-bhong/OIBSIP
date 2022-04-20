@@ -1,4 +1,4 @@
-import User from '../models/user.js';
+import Admin from '../models/admin.js';
 import emailVerification from '../models/emailVerification.js'
 import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
@@ -65,9 +65,9 @@ export const verifyOtpForEmail = async (req, res) => {
 }
 
 export const signupUser = async (req, res) => {
-    const { firstName, lastName, email, mobileNo, password, confirmPassword } = req.body;
+    const { firstName, lastName, email, mobileNo, address, storeName, password, confirmPassword } = req.body;
     try {               
-        const existingUser = await User.findOne({ email });
+        const existingUser = await Admin.findOne({ email });
     
         if(existingUser) return res.status(400).json({ message: "user already exists!" });
 
@@ -81,7 +81,7 @@ export const signupUser = async (req, res) => {
     
         const hashedPassword = await bcrypt.hash(password, 12);
     
-        const result = await User.create({ email: existingEmailForVerification.email, mobileNo, password: hashedPassword, name: `${firstName} ${lastName}`}); 
+        const result = await Admin.create({ email: existingEmailForVerification.email, mobileNo, address, storeName, password: hashedPassword, name: `${firstName} ${lastName}`}); 
        
         res.status(200).json({ message: 'user Signed In successfully...', result });
         
@@ -95,7 +95,7 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const existingUser = await User.findOne({ email });
+        const existingUser = await Admin.findOne({ email });
         
         if(!existingUser) return res.status(404).json({ message: "user doesn't exist." });
 
@@ -114,7 +114,7 @@ export const forgotPassword = async (req, res) => {
     const { emailForVerification, password, confirmPassword } = req.body;
 
     try {
-        const existingUser = await User.findOne({ email: emailForVerification });
+        const existingUser = await Admin.findOne({ email: emailForVerification });
         
         if(!existingUser) return res.status(404).json({ message: `no user found with email ${emailForVerification}` });
 
@@ -133,7 +133,7 @@ export const forgotPassword = async (req, res) => {
 
         const updatedUser = await existingUser.save();
     
-        //const result = await User.findByIdAndUpdate(existingUser._id, updatedUser, { new: true }); 
+        //const result = await Admin.findByIdAndUpdate(existingUser._id, updatedUser, { new: true }); 
        
         res.status(200).json({ message: 'password changed successfully...', updatedUser });
 
