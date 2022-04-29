@@ -6,7 +6,7 @@ import { CgTrash } from "react-icons/cg";
 
 
 const PizzaMeat = () => {
-  const [ newMeatData, setNewMeatData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '' });
+  const [ newMeatData, setNewMeatData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '', cost: '' });
   const [ meats, setMeats ] = useState([]);
 
   useEffect(() => {
@@ -78,6 +78,7 @@ const PizzaMeat = () => {
                             <label for="message-text" className="col-form-label fw-bold mt-2">Message:</label>
                             <textarea className="form-control" id="message-text" onChange={(e) => setNewMeatData({ ...newMeatData, message: e.target.value })} />
                             <input type='text' className="col-12 form-control form-control-lg mt-4" placeholder="Available count of Meat" onChange={(e) => setNewMeatData({ ...newMeatData, availableCount: e.target.value })} />
+                            <input type='text' className="col-12 form-control form-control-lg mt-4" placeholder="cost of Meat" onChange={(e) => setNewMeatData({ ...newMeatData, cost: e.target.value })} />
                             <label for="file_input" className="col-form-label fw-bold mt-2">Image of Meat :</label> <br/>
                             <FileBase type="file" multiple={false} onDone={ ({ base64 }) => setNewMeatData({ ...newMeatData, selectedFile: base64 }) } id='file_input' /> <br />
                             <button className="col-12 mt-3 btn btn-primary" type="submit" onClick={HandleAddMeat}>Submit</button>    

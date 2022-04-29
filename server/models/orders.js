@@ -11,7 +11,8 @@ const orderSchema= mongoose.Schema({
     userId: { type: String, required: true },
     mobileNo: { type: String, required: true },
     status: { type: String, required: true },
+    amountPaid: { type: String, requred: true },
     type: { type: String, required: true },  
-})
+});
 
 export default mongoose.model("Orders", orderSchema);

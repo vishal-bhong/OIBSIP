@@ -10,7 +10,7 @@ import './user_custom_pizza.css';
 
 const UserCustomPizza = () => {
     const [ options, setOptions ] = useState([]);
-    const [ customItems, setCustomItems ] = useState({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', type: '', status: 'Pending' });
+    const [ customItems, setCustomItems ] = useState({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: '300', type: '', status: 'Pending' });
     const [ selectedBase, setSelectedBase ] = useState([]);
     const [ selectedSauce, setSelectedSauce ] = useState([]);
     const [ selectedCheese, setSelectedCheese ] = useState([]);
@@ -112,7 +112,7 @@ const UserCustomPizza = () => {
     }
 
     const clearSelected = () => {
-        setCustomItems({ Base: [], Sauce: [], Cheese: [], Veggies: [], type: '' });
+        setCustomItems({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: '300', type: '', status: 'Pending' });
         setSelectedBase([]);
         setSelectedSauce([]);
         setSelectedCheese([]);
@@ -198,7 +198,8 @@ const UserCustomPizza = () => {
                                                     <img  alt="this is pizza variety" className="card-img-top" src={x.selectedFile} id="custom_cardimg" />
                                                     <div className="card-body">
                                                         <div className="card-title d-flex flex-column">
-                                                            <span className="ms-0 text-info fw-bold">{x.name}</span>                        
+                                                            <span className="ms-0 text-info fw-bold">{x.name}</span> 
+                                                            <span className="ms-0 text-info fs-7 fw-bold">{`Rs. ${x.cost}`}</span>                               
                                                         </div>
                                                         <div>
                                                             <span id='custom_option_message'>{x.message}</span>

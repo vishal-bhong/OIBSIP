@@ -6,7 +6,7 @@ import { CgTrash } from "react-icons/cg";
 
 
 const PizzaBases = () => {
-    const [ newBaseData, setNewBaseData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '' });
+    const [ newBaseData, setNewBaseData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '', cost: '' });
     const [ bases, setBases ] = useState([]);
  
     useEffect(() => {
@@ -78,6 +78,7 @@ const PizzaBases = () => {
                             <label for="message-text" className="col-form-label fw-bold mt-2">Message:</label>
                             <textarea className="form-control" id="message-text" onChange={(e) => setNewBaseData({ ...newBaseData, message: e.target.value })} />
                             <input type='text' className="col-12 form-control form-control-lg mt-4" placeholder="Available count of Base" onChange={(e) => setNewBaseData({ ...newBaseData, availableCount: e.target.value })} />
+                            <input type='text' className="col-12 form-control form-control-lg mt-4" placeholder="cost of Base" onChange={(e) => setNewBaseData({ ...newBaseData, cost: e.target.value })} />
                             <label for="file_input" className="col-form-label fw-bold mt-2">Image of base :</label> <br/>
                             <FileBase type="file" multiple={false} onDone={ ({ base64 }) => setNewBaseData({ ...newBaseData, selectedFile: base64 }) } id='file_input' /> <br />
                             <button className="col-12 mt-3 btn btn-primary" type="submit" onClick={HandleAddBase}>Submit</button>    

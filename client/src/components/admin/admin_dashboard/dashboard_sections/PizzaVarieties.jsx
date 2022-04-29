@@ -8,7 +8,7 @@ import './pizza_varieties.css';
 
 
 const PizzaVarieties = () => {
-  const [ newPizzaVarietiesData, setNewPizzaVarietiesData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '' });
+  const [ newPizzaVarietiesData, setNewPizzaVarietiesData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '', cost: '' });
   const [ pizzaVarieties, setPizzaVarieties ] = useState([]);
 
   useEffect(() => {
@@ -82,6 +82,7 @@ const PizzaVarieties = () => {
                             <label for="message-text" className="col-form-label fw-bold mt-2">Message:</label>
                             <textarea className="form-control" id="message-text" onChange={(e) => setNewPizzaVarietiesData({ ...newPizzaVarietiesData, message: e.target.value })} />
                             <input type='text' className="col-12 form-control form-control-lg mt-4" placeholder="Availability Pizza" onChange={(e) => setNewPizzaVarietiesData({ ...newPizzaVarietiesData, availableCount: e.target.value })} />
+                            <input type='text' className="col-12 form-control form-control-lg mt-4" placeholder="cost of Pizza" onChange={(e) => setNewPizzaVarietiesData({ ...newPizzaVarietiesData, cost: e.target.value })} />
                             <label for="file_input" className="col-form-label fw-bold mt-2">Image of Pizza Variety :</label> <br/>
                             <FileBase type="file" multiple={false} onDone={ ({ base64 }) => setNewPizzaVarietiesData({ ...newPizzaVarietiesData, selectedFile: base64 }) } id='file_input' /> <br />
                             <button className="col-12 mt-3 btn btn-primary" type="submit" onClick={HandleAddPizzaVarieties}>Submit</button>    

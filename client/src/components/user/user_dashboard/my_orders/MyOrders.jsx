@@ -43,6 +43,7 @@ const MyOrders = () => {
                              <>                               
                                 <span> mobile no : {order.mobileNo}</span> <br />
                                 <span>your Provided email : {order.email}</span> <br /> <br />
+                                <span> Amount Paid : {order.amountPaid}</span> <br />
                                 { (order.type == 'pizza_variety') ? 
                                 (<>
                                     <span>pizza variety: {order.type} </span>

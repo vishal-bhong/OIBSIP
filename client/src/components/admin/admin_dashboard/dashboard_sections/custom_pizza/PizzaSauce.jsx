@@ -6,7 +6,7 @@ import { CgTrash } from "react-icons/cg";
 
 
 const PizzaSauce = () => {
-  const [ newSauceData, setNewSauceData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '' });
+  const [ newSauceData, setNewSauceData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '', cost: '' });
   const [ sauces, setSauces ] = useState([]);
 
   useEffect(() => {
@@ -78,6 +78,7 @@ const PizzaSauce = () => {
                             <label for="message-text" className="col-form-label fw-bold mt-2">Message:</label>
                             <textarea className="form-control" id="message-text" onChange={(e) => setNewSauceData({ ...newSauceData, message: e.target.value })} />
                             <input type='text' className="col-12 form-control form-control-lg mt-4" placeholder="Available count of Base" onChange={(e) => setNewSauceData({ ...newSauceData, availableCount: e.target.value })} />
+                            <input type='text' className="col-12 form-control form-control-lg mt-4" placeholder="cost of Base" onChange={(e) => setNewSauceData({ ...newSauceData, cost: e.target.value })} />
                             <label for="file_input" className="col-form-label fw-bold mt-2">Image of Sauce :</label> <br/>
                             <FileBase type="file" multiple={false} onDone={ ({ base64 }) => setNewSauceData({ ...newSauceData, selectedFile: base64 }) } id='file_input' /> <br />
                             <button className="col-12 mt-3 btn btn-primary" type="submit" onClick={HandleAddSauce}>Submit</button>    
