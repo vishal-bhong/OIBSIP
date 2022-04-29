@@ -1,8 +1,27 @@
 import React from "react";
 import "./userSidebar.css";
+import { useNavigate } from "react-router-dom";
 import { CgChevronDoubleLeft } from "react-icons/cg";
 
 const UserSidebar = () => {
+   const navigate = useNavigate();
+
+   const handleDashNavigation = () =>{
+     navigate('/user/dashboard');
+   }
+
+   const handleCustomNavigation = () =>{
+     navigate('/user/dashboard/custom_pizza');
+   }
+
+   const handleOrderNavigation = () =>{
+     navigate('/user/dashboard/myorders');
+   }
+
+   const handleLogoutNavigation = () =>{
+     localStorage.removeItem('userProfile')
+     navigate('/user/login');
+   }
 
     return (
         <>
@@ -18,59 +37,27 @@ const UserSidebar = () => {
                   <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
 
                       <li className="nav-item pb-3" id="nav-item">
-                        <a href="/user/dashboard" data-bs-toggle="collapse" className="nav-link text-truncate"  id="nav-item-name">
+                        <a type="button" onClick={handleDashNavigation} data-bs-toggle="collapse" className="nav-link text-truncate"  id="nav-item-name">
                             <i className="bi bi-microsoft h4"></i><span className="ms-3 d-none d-sm-inline h5">Dashboard</span> </a>
                       </li>
 
                       <li className="nav-item pb-3" id="nav-item">
-                        <a href="/home" className="nav-link text-truncate"  id="nav-item-name">
-                            <i className="bi bi-house-door h4"></i><span className="ms-3 d-none d-sm-inline h5">Home</span>
+                        <a type="button" onClick={handleCustomNavigation} className="nav-link text-truncate"  id="nav-item-name">
+                           <i className="bi bi-chat-right h4"></i><span className="ms-3 d-none d-sm-inline h5">customize Pizza</span>
                         </a>
                       </li>
 
                       <li className="nav-item pb-3" id="nav-item">
-                        <a href="#" className="nav-link text-truncate"  id="nav-item-name">
-                            <i className="bi bi-person h4"></i><span className="ms-3 d-none d-sm-inline h5">User</span>
-                        </a>
-                      </li>
-
-                      <li className="nav-item pb-3" id="nav-item">
-                        <a href="/register" className="nav-link text-truncate"  id="nav-item-name">
-                          <i className="bi bi-check-circle h4"></i><span className="ms-3 d-none d-sm-inline h5">Register</span>
-                        </a>
-                      </li>
-
-                      <li className="nav-item pb-3" id="nav-item">
-                        <a href="/user/dashboard/myorders" className="nav-link text-truncate"  id="nav-item-name">
+                        <a type="button" onClick={handleOrderNavigation} className="nav-link text-truncate"  id="nav-item-name">
                            <i className="bi bi-cart h4"></i><span className="ms-3 d-none d-sm-inline h5">Orders</span>
                         </a>
                       </li>
 
                       <li className="nav-item pb-3" id="nav-item">
-                        <a href="#" className="nav-link text-truncate"  id="nav-item-name">
-                           <i className="bi bi-chat-right h4"></i><span className="ms-3 d-none d-sm-inline h5">Messages</span>
+                        <a type="button" onClick={handleLogoutNavigation} className="nav-link text-truncate"  id="nav-item-name">
+                            <i className="bi bi-patch-exclamation h4"></i><span className="ms-3 d-none d-sm-inline h5">Logout</span>
                         </a>
-                      </li>
-
-                      <li className="nav-item pb-3" id="nav-item">
-                        <a href="#" data-bs-toggle="collapse" className="nav-link text-truncate"  id="nav-item-name">
-                            <i className="bi bi-patch-exclamation h4"></i><span className="ms-3 d-none d-sm-inline h5">About us</span> </a>
-                      </li>
-
-                      <li className="dropdown pb-3" id="nav-item">
-                            <a href="#" className="nav-link dropdown-toggle text-truncate" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i className="bi bi-arrow-down-circle h4"></i><span className="ms-3 d-none d-sm-inline h5">Options</span>
-                            </a>
-                            <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdown">
-                                <li><a className="dropdown-item" href="#">New project...</a></li>
-                                <li><a className="dropdown-item" href="#">Settings</a></li>
-                                <li><a className="dropdown-item" href="#">Profile</a></li>
-                                <li>
-                                    <hr className="dropdown-divider" />
-                                </li>
-                                <li><a className="dropdown-item" href="#">Sign out</a></li>
-                            </ul>
-                      </li>                
+                      </li>          
                   </ul>
               </div>
            </div>

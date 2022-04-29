@@ -5,7 +5,7 @@ const veggiesSchema = mongoose.Schema({
     message : { type: String, required: true },
     selectedFile : { type: String, required: true },
     availableCount : { type: String, required: true },
-    cost : { type: String, required: true }
+    cost : { type: Number, required: true }
 })
 
 var PizzaVeggies = mongoose.model('PizzaVeggies', veggiesSchema);

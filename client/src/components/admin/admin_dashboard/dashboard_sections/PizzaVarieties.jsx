@@ -8,7 +8,7 @@ import './pizza_varieties.css';
 
 
 const PizzaVarieties = () => {
-  const [ newPizzaVarietiesData, setNewPizzaVarietiesData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '', cost: '' });
+  const [ newPizzaVarietiesData, setNewPizzaVarietiesData ] = useState({ name: '', message: '', availableCount: '', selectedFile: '', cost: null });
   const [ pizzaVarieties, setPizzaVarieties ] = useState([]);
 
   useEffect(() => {

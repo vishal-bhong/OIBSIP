@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PizzaVariety from "./pizza_variety/PizzaVariety";
 import './pizza_varieties.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,13 +9,14 @@ import { IoAddCircleOutline } from "react-icons/io5";
 const PizzaVarieties = () => {
     const [ pizzaVarieties, setPizzaVarieties ] = useState([]);
     const navigate = useNavigate();
-    const [ pizzaOrder, setPizzaOrder ] = useState({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: '300', type: 'pizza_variety', status: 'Pending' });
+    const [ pizzaOrder, setPizzaOrder ] = useState({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: null, type: 'pizza_variety', status: 'Pending' });
     const [ selectedPizzaVarieties, setSelectedPizzaVarieties ] = useState([]);
+    const [ selectedPizzaCosts, setSelectedPizzaCosts ] = useState([]);
 
     const user = JSON.parse(localStorage.getItem("userProfile"));
 
     React.useEffect(() => {
-        setPizzaOrder({ ...pizzaOrder, Pizza_Variety: selectedPizzaVarieties, name: user?.result?.name, userId: user?.result?._id, email: user?.result?.email, mobileNo: user?.result?.mobileNo });
+        setPizzaOrder({ ...pizzaOrder, Pizza_Variety: selectedPizzaVarieties, name: user?.result?.name, userId: user?.result?._id, email: user?.result?.email, mobileNo: user?.result?.mobileNo, amountPaid: selectedPizzaCosts.reduce((a, b) => a + b, 0) });
     }, [selectedPizzaVarieties]);
 
 
@@ -34,23 +34,51 @@ const PizzaVarieties = () => {
         navigate("/user/dashboard/custom_pizza")
     }
 
+    const paymentProcess = (data) => {
+		const options = {
+			key: "rzp_test_ToloqmvsWNJBgl",
+			amount: data.amount,
+			currency: data.currency,
+			name: pizzaOrder.Pizza_Variety,
+			description: "Test Transaction",
+			order_id: data.id,
+			handler: async (response) => {
+				try {
+					const verifyUrl = "http://localhost:5000/inventory/payment/verify";
+					const { data } = await axios.post(verifyUrl, { response, pizzaOrder });
+					console.log(data);
+                    toast.success(`order placed successfully`); 
+				} catch (error) {
+					console.log(error);
+				}
+			},
+			theme: {
+				color: "#3399cc",
+			},
+		};
+		const rzp1 = new window.Razorpay(options);
+		rzp1.open();
+	};
+
     const handleConfirmAndOrder = async () => {
-        if(window.confirm(`Confirm your order "${pizzaOrder.Pizza_Variety}" ?`) === true) {
-            axios.post('http://localhost:5000/inventory/add_order', pizzaOrder)
-            .then(res =>{ 
-                toast.success(`order placed successfully`);                                   
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        if(window.confirm(`Confirm your order "${pizzaOrder.Pizza_Variety}" with amount to be paid: ${pizzaOrder.amountPaid} ?`) === true) {
+                try {
+                    const orderUrl = "http://localhost:5000/inventory/payment/order";
+                    const { data } = await axios.post(orderUrl, { amount: pizzaOrder.amountPaid });
+                    console.log(data);
+                    paymentProcess(data.data);
+                } catch (error) {
+                    console.log(error);
+                }
         } else {
             alert("Request Canceled ...");
         }
       }  
 
     const handleClear = () => {
-        setPizzaOrder({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: '300', type: 'pizza_variety', status: 'Pending' });
+        setPizzaOrder({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: null, type: 'pizza_variety', status: 'Pending' });
         setSelectedPizzaVarieties([]);
+        setSelectedPizzaCosts([]);
         toast.success(`cleared all selected pizza's`)
     }
                      
@@ -66,7 +94,8 @@ const PizzaVarieties = () => {
                     pizzaVarieties.map((pizzaVariety) => {
 
                         const handleselection = () => {
-                            setSelectedPizzaVarieties([ ...selectedPizzaVarieties, pizzaVariety.name]);
+                            setSelectedPizzaVarieties([...selectedPizzaVarieties, pizzaVariety.name ]);
+                            setSelectedPizzaCosts([...selectedPizzaCosts, pizzaVariety.cost ]);
                             toast.success(`you selected ${pizzaVariety.name}`) 
                             console.log(selectedPizzaVarieties);
                         }

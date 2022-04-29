@@ -83,7 +83,7 @@ const PizzaOrders = () => {
                                             <span>mobile No. : {order.mobileNo}</span> <br /> <br />
                                             { (order.type == 'pizza_variety') ? 
                                               (<>
-                                                <span>pizza variety: {order.Pizza_Variety} </span>
+                                                <span>pizza variety: {order.Pizza_Variety} </span> <br />
                                               </>) : 
                                               (<>
                                                 <span>Pizza base: {order.Base}</span><br/>
@@ -92,6 +92,7 @@ const PizzaOrders = () => {
                                                 <span>Pizza Veggies: {order.Veggies}</span><br/>
                                               </>)
                                             }
+                                            <strong>Amount Paid: &nbsp; {order.amountPaid}</strong>
                                           </div>                       
                                       </div>
                                   </div>

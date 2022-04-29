@@ -7,7 +7,7 @@ export const userLogin = (formData, navigate) => async (dispatch) => {
 
         dispatch({ type: 'USER_AUTH', data });
 
-        //navigate('/');
+        navigate('/user/dashboard');
     } catch (err) {
         console.log(err);
     }
@@ -19,7 +19,7 @@ export const userSignup = (formData, navigate) => async (dispatch) => {
 
         dispatch({ type: "USER_AUTH", data });
         toast.success(`${data.message}`)
-       // navigate('/');
+        navigate('/user/dashboard');
     } catch (err) {
         toast.error(`${err.response.data.message}`)
         console.log(err);

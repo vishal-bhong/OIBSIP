@@ -7,7 +7,7 @@ export const adminLogin = (formData, navigate) => async (dispatch) => {
 
         dispatch({ type: 'ADMIN_AUTH', data });
 
-        //navigate('/');
+        navigate('/admin/dashboard');
     } catch (err) {
         console.log(err);
     }
@@ -19,7 +19,7 @@ export const adminSignup = (formData, navigate) => async (dispatch) => {
 
         dispatch({ type: "ADMIN_AUTH", data });
         toast.success(`${data.message}`)
-       // navigate('/');
+        navigate('/admin/dashboard');
     } catch (err) {
         toast.error(`${err.response.data.message}`)
         console.log(err);

@@ -6,16 +6,18 @@ import { addCheese, getCheese, deleteCheese } from '../controllers/pizza_ingredi
 import { addSauce, getSauce, deleteSauce } from '../controllers/pizza_ingredients/pizzaSauce.js';
 import { addVeggies, getVeggies, deleteVeggies } from '../controllers/pizza_ingredients/pizzaVeggies.js';
 import { addMeat, getMeat, deleteMeat } from '../controllers/pizza_ingredients/pizzaMeat.js';
-import { addOrder, getOrders, deleteOrder, updateOrderStatus, getMyOrders } from "../controllers/ordersController.js";
+import { getOrders, deleteOrder, updateOrderStatus, getMyOrders, paymentOrder, verifyPayment } from "../controllers/ordersController.js";
 
 
 const router = express.Router();
 
-router.post('/add_order', addOrder);
 router.get('/get_orders', getOrders);
 router.get('/get_Myorders/:userId', getMyOrders);
 router.delete('/delete_order/:id', deleteOrder);
 router.post('/update_order_status', updateOrderStatus);
+
+router.post('/payment/order', paymentOrder)
+router.post('/payment/verify', verifyPayment)
 
 router.post('/add_varieties', addVarieties);
 router.post('/add_bases', addBases);

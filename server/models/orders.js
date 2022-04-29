@@ -11,7 +11,7 @@ const orderSchema= mongoose.Schema({
     userId: { type: String, required: true },
     mobileNo: { type: String, required: true },
     status: { type: String, required: true },
-    amountPaid: { type: String, requred: true },
+    amountPaid: { type: Number, requred: true },
     type: { type: String, required: true },  
 });
 

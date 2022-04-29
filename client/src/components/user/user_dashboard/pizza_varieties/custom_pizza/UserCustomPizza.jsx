@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { io } from "socket.io-client";
 
 import UserNavbar from "../../../userBars/userNavbar/UserNavbar";
 import UserSidebar from "../../../userBars/userSidebar/UserSidebar";
@@ -10,19 +9,17 @@ import './user_custom_pizza.css';
 
 const UserCustomPizza = () => {
     const [ options, setOptions ] = useState([]);
-    const [ customItems, setCustomItems ] = useState({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: '300', type: '', status: 'Pending' });
+    const [ pizzaOrder, setPizzaOrder ] = useState({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: 300, type: '', status: 'Pending' });
     const [ selectedBase, setSelectedBase ] = useState([]);
     const [ selectedSauce, setSelectedSauce ] = useState([]);
     const [ selectedCheese, setSelectedCheese ] = useState([]);
     const [ selectedVeggies, setSelectedVeggies ] = useState([]);
-    const [ socket, setSocket ] = useState(null);
     
     const user = JSON.parse(localStorage.getItem("userProfile"));
 
     
     useEffect(() => {
-        setSocket(io("http://localhost:5000"));
-        setCustomItems({ ...customItems, Base: selectedBase, Sauce: selectedSauce, Cheese: selectedCheese, Veggies: selectedVeggies, name: user?.result?.name, userId: user?.result?._id, email: user?.result?.email, mobileNo: user?.result?.mobileNo });
+        setPizzaOrder({ ...pizzaOrder, Base: selectedBase, Sauce: selectedSauce, Cheese: selectedCheese, Veggies: selectedVeggies, name: user?.result?.name, userId: user?.result?._id, email: user?.result?.email, mobileNo: user?.result?.mobileNo });
     },[selectedBase, selectedSauce, selectedCheese, selectedVeggies]);
     
     if(!user) {
@@ -31,40 +28,49 @@ const UserCustomPizza = () => {
             <h1 style={{ padding: '100px 0 0 150px', fontWeight: 'bold', color: 'red' }}>Please Log in as user to see the dashboard.. </h1>
             </>
         )
-    }    
-
-    // useEffect(() => {
-    //     // socket?.emit("newUser", {
-    //     //     userName: user.result.email,
-    //     //     fullName: user.result.name,
-    //     //     mobile: user.result.mobileNo,
-    //     //     userId: user.result._id
-    //     // });    
-    // }, []);
+    }
+    
+    const paymentProcess = (data) => {
+		const options = {
+			key: "rzp_test_ToloqmvsWNJBgl",
+			amount: data.amount,
+			currency: data.currency,
+			name: pizzaOrder.type,
+			description: "Test Transaction",
+			order_id: data.id,
+			handler: async (response) => {
+				try {
+					const verifyUrl = "http://localhost:5000/inventory/payment/verify";
+					const { data } = await axios.post(verifyUrl, { response, pizzaOrder });
+					console.log(data);
+                    toast.success(`order placed successfully`); 
+				} catch (error) {
+					console.log(error);
+				}
+			},
+			theme: {
+				color: "#3399cc",
+			},
+		};
+		const rzp1 = new window.Razorpay(options);
+		rzp1.open();
+	};
 
         const handleConfirmAndOrder = async () => {
-            await setCustomItems({ ...customItems, type: 'custom_pizza' });
-            
-            socket.emit("Status", {
-                senderUserName : user.result.email,
-                receiverUserName : 'powersimmortal@gmail.com',
-                status: 'ordered',
-            });
-
-            axios.post('http://localhost:5000/inventory/add_order', customItems)
-            .then(res =>{ 
-                toast.success(`order placed successfully`);                                   
-            })
-            .catch((err) => {
-                console.log(err.message)            
-            });
-
+            try {
+                const orderUrl = "http://localhost:5000/inventory/payment/order";
+                const { data } = await axios.post(orderUrl, { amount: pizzaOrder.amountPaid });
+                console.log(data);
+                paymentProcess(data.data);
+            } catch (error) {
+                console.log(error);
+            }
     }
 
     const HandleAddBaseOption = () => {
         setOptions([]);
         setSelectedBase([]);
-        setCustomItems({ ...customItems, type: 'selectedBase' })
+        setPizzaOrder({ ...pizzaOrder, type: 'selectedBase' })
         axios.get('http://localhost:5000/inventory/get_bases')
           .then(res => {                
                setOptions(res.data);
@@ -77,7 +83,7 @@ const UserCustomPizza = () => {
     const HandleAddSauceOption = () => {
         setOptions([]);
         setSelectedSauce([]);
-        setCustomItems({ ...customItems, type: 'selectedSauce' })
+        setPizzaOrder({ ...pizzaOrder, type: 'selectedSauce' })
         axios.get('http://localhost:5000/inventory/get_sauce')
           .then(res => {             
                setOptions(res.data);
@@ -89,7 +95,7 @@ const UserCustomPizza = () => {
     const HandleAddCheeseOption = () => {
         setOptions([]);
         setSelectedCheese([]);
-        setCustomItems({ ...customItems, type: 'selectedCheese' })
+        setPizzaOrder({ ...pizzaOrder, type: 'selectedCheese' })
         axios.get('http://localhost:5000/inventory/get_cheese')
           .then(res => {             
                setOptions(res.data);
@@ -101,7 +107,7 @@ const UserCustomPizza = () => {
     const HandleAddVeggiesOption = () => {
         setOptions([]);
         setSelectedVeggies([]);
-        setCustomItems({ ...customItems, type: 'selectedVeggies' })
+        setPizzaOrder({ ...pizzaOrder, type: 'selectedVeggies' })
         axios.get('http://localhost:5000/inventory/get_veggies')
           .then(res => {             
                setOptions(res.data);
@@ -112,7 +118,7 @@ const UserCustomPizza = () => {
     }
 
     const clearSelected = () => {
-        setCustomItems({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: '300', type: '', status: 'Pending' });
+        setPizzaOrder({ Pizza_Variety: [], Base: [], Sauce: [], Cheese: [], Veggies: [], name: '', userId: '', email: '', mobileNo: '', amountPaid: '300', type: '', status: 'Pending' });
         setSelectedBase([]);
         setSelectedSauce([]);
         setSelectedCheese([]);
@@ -163,7 +169,7 @@ const UserCustomPizza = () => {
                               {
                                 options.map((x) => {                                    
                                     const handleAppendOptions = () => {
-                                        switch (customItems.type) {
+                                        switch (pizzaOrder.type) {
                                             case 'selectedBase':
                                                 if (selectedBase.length > 0) return toast.error('cannot add multiple bases');
                                                 else {
@@ -198,8 +204,7 @@ const UserCustomPizza = () => {
                                                     <img  alt="this is pizza variety" className="card-img-top" src={x.selectedFile} id="custom_cardimg" />
                                                     <div className="card-body">
                                                         <div className="card-title d-flex flex-column">
-                                                            <span className="ms-0 text-info fw-bold">{x.name}</span> 
-                                                            <span className="ms-0 text-info fs-7 fw-bold">{`Rs. ${x.cost}`}</span>                               
+                                                            <span className="ms-0 text-info fw-bold">{x.name}</span>                                  
                                                         </div>
                                                         <div>
                                                             <span id='custom_option_message'>{x.message}</span>
