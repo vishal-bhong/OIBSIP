@@ -9,8 +9,8 @@ let transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'your email', // gmail user user
-      pass: 'your password', // generated App password through gmail link  -   https://myaccount.google.com/apppasswords?rapt=AEjHL4OTlbISuIaeOrSTqg7enUEy4vr2-rErOgD-UaQPD8DR2xuok57gY42A_IboAXeAX-9s1NRg6F0e7_xsYWIp0cDhnMFJqw
+      user: '', // gmail user user
+      pass: '', // generated App password through gmail link  -   https://myaccount.google.com/apppasswords
     },
   });
 

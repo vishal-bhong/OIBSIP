@@ -1,0 +1,14 @@
+#custom_card {
+    /* width: 290px;  */
+    width: 100%;
+    max-height: 350px;
+    min-height: 350px;
+    box-shadow: 0 0 8px ;
+    background-color: rgb(216, 212, 212);
+    border: 1px solid black;    
+}
+
+#circle_add_icon {
+    color: white;
+    font-size: 130px;
+}

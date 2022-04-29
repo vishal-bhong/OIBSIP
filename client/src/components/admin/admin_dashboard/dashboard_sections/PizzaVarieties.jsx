@@ -27,7 +27,7 @@ const PizzaVarieties = () => {
 
     axios.post('http://localhost:5000/inventory/add_varieties', newPizzaVarietiesData)
      .then(res =>{
-         toast.success(`successfully added Meat ${res.data.name} `);                                            
+         toast.success(`successfully added Variety ${res.data.name} `);                                            
      })
      .catch((err) => {
          console.log(err.message)            

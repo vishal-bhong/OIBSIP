@@ -1,0 +1,16 @@
+
+
+#orders_dashboard {
+    margin: 110px 0 0 190px;
+    background-color: white;
+    box-shadow: 0 0 12px;
+    max-width: 60rem;
+    min-height: 30rem;
+    max-height: auto;
+}
+
+#statusField {
+    background-color: aqua;
+    width: 5rem;
+    height: 2rem;
+}

@@ -2,6 +2,7 @@
     margin: 50px 10px 0 80px;
     background-color: white;
     max-width: 100%;
-    height: 350px;
+    max-height: auto;
+    min-height: 350px;
     box-shadow: 0 0 12px;
 }

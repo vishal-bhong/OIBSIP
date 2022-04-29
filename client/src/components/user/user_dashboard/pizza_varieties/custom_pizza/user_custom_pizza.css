@@ -1,0 +1,48 @@
+
+#custom_pizza_dashboard {
+    margin: 110px 0 0 140px;
+    background-color: white;
+    box-shadow: 0 0 12px;
+    min-height: 30rem;
+    max-height: auto;
+}
+
+#custom_pizza_title {
+  color: brown;
+}
+
+#custom_pizza_form {
+    margin: 50px 0 0 50px;
+}
+
+#custom_pizza_input {
+        width: 20rem;
+}
+
+#custom_pizza_inputButton {
+    background-color: aqua;
+    width: 120px;
+}
+
+#user_custom_card {
+    width: 100%;
+    max-height: 230px;
+    min-height: 230px;
+    box-shadow: 0 0 8px ;
+    border: 1px solid black; 
+    overflow: hidden; 
+}
+
+#custom_cardimg { 
+    min-height: 100px;       
+    max-height: 100px;
+    max-width: 134px;    
+}
+
+#custom_option_message {
+    font-size: 10px;
+    display: inline-block;
+    width: 13em;
+    height:6em;    
+    text-overflow: ellipsis;
+}

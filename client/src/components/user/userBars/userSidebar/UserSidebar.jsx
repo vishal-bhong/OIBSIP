@@ -18,7 +18,7 @@ const UserSidebar = () => {
                   <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
 
                       <li className="nav-item pb-3" id="nav-item">
-                        <a href="/home" data-bs-toggle="collapse" className="nav-link text-truncate"  id="nav-item-name">
+                        <a href="/user/dashboard" data-bs-toggle="collapse" className="nav-link text-truncate"  id="nav-item-name">
                             <i className="bi bi-microsoft h4"></i><span className="ms-3 d-none d-sm-inline h5">Dashboard</span> </a>
                       </li>
 
@@ -41,7 +41,7 @@ const UserSidebar = () => {
                       </li>
 
                       <li className="nav-item pb-3" id="nav-item">
-                        <a href="#" className="nav-link text-truncate"  id="nav-item-name">
+                        <a href="/user/dashboard/myorders" className="nav-link text-truncate"  id="nav-item-name">
                            <i className="bi bi-cart h4"></i><span className="ms-3 d-none d-sm-inline h5">Orders</span>
                         </a>
                       </li>

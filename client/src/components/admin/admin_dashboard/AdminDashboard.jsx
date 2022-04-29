@@ -7,6 +7,16 @@ import PizzaVarieties from './dashboard_sections/PizzaVarieties';
 
 
 const Dashboard = () => {
+    const admin = JSON.parse(localStorage.getItem('adminProfile'));
+
+    if(!admin) {
+        return (
+            <>
+             <h1 style={{ padding: '100px 0 0 150px', fontWeight: 'bold', color: 'red' }}>Please Log in as Admin to see the dashboard.. </h1>
+            </>
+        )
+    }
+
     return (
         <>
         <AdminNavbar />
