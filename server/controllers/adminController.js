@@ -7,10 +7,10 @@ import nodemailer from 'nodemailer';
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
-    secure: false, // true for 465, false for other ports
+    secure: false, 
     auth: {
-      user: "killeryob123@gmail.com", // gmail user user
-      pass: "unrujyrngcktynvc", // generated App password through gmail link  -   https://myaccount.google.com/apppasswords
+      user: '**********',
+      pass: '**********',
     },
   });
 
@@ -128,12 +128,9 @@ export const forgotPassword = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        // const updatedUser = { ...existingUser, password: hashedPassword };
         existingUser.password = hashedPassword;
 
         const updatedUser = await existingUser.save();
-    
-        //const result = await Admin.findByIdAndUpdate(existingUser._id, updatedUser, { new: true }); 
        
         res.status(200).json({ message: 'password changed successfully...', updatedUser });
 

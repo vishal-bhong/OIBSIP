@@ -2,10 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-//import Login from './components/login/Login'
-// import Signup from './components/user/signup/Signup';
 import Dashboard from './components/user/user_dashboard/UserDashboard';
-
 import UserLogin from './components/user/user_login/UserLogin';
 import UserSignup from './components/user/user_signup/UserSignup';
 import AdminLogin from './components/admin/admin_login/AdminLogin';

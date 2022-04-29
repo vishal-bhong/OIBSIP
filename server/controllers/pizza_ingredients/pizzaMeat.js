@@ -1,5 +1,4 @@
 import PizzaMeat from '../../models/pizza_ingredients/pizzaMeat.js'
-import express from 'express';
 import mongoose from 'mongoose';
 
 

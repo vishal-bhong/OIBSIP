@@ -1,7 +1,7 @@
-
 import UserNavbar from '../userBars/userNavbar/UserNavbar';
 import UserSidebar from '../userBars/userSidebar/UserSidebar';
 import PizzaVarieties from './pizza_varieties/PizzaVarieties';
+
 import './user_dashboard.css'
 
 const Dashboard = () => {

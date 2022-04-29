@@ -150,7 +150,3 @@ const AdminSignup = () => {
 }
 
 export default AdminSignup;
-
-
-
-{/* <input className="form-control" id="emailOtp" /> */}

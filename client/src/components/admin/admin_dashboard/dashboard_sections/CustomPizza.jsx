@@ -1,6 +1,5 @@
 import './custom_pizza.css';
-import { CgTrashEmpty } from "react-icons/cg";
-import { CgTrash } from "react-icons/cg";
+
 import PizzaBases from './custom_pizza/PizzaBases';
 import PizzaSauce from './custom_pizza/PizzaSauce';
 import PizzaCheese from './custom_pizza/PizzaCheese';

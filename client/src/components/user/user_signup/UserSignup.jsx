@@ -141,7 +141,3 @@ const UserSignup = () => {
 }
 
 export default UserSignup;
-
-
-
-{/* <input className="form-control" id="emailOtp" /> */}
